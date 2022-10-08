@@ -18,6 +18,7 @@ kotlin {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
+                implementation("org.openrndr:openrndr-math:0.4.1")
             }
         }
         named("androidMain") {

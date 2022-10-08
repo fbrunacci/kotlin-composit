@@ -1,4 +1,4 @@
-package composit.common
+package composit.common.samples
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -12,11 +12,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import composit.common.getPlatformName
 import composit.common.platform.Res
 import composit.common.platform.painterResource
-import composit.common.samples.SimpleMap
 
 @Composable
-fun App() {
-    SimpleMap()
+fun InitApp() {
+    var text by remember { mutableStateOf("Hello, World!") }
+    val platformName = getPlatformName()
+
+    Column {
+        Button(onClick = {
+            text = "Hello, ${platformName}"
+        }) {
+            Text(text)
+        }
+        Image(
+            painterResource(Res.drawable.p1),
+            contentDescription = null,
+            modifier = Modifier.size(38.dp)
+        )
+    }
 }
