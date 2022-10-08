@@ -11,54 +11,48 @@ version = "1.0-SNAPSHOT"
 
 kotlin {
     android()
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions.jvmTarget = "11"
-        }
-    }
+    jvm("desktop")
     sourceSets {
-        val commonMain by getting {
+        named("commonMain") {
             dependencies {
                 api(compose.runtime)
                 api(compose.foundation)
                 api(compose.material)
             }
         }
-        val commonTest by getting {
+        named("androidMain") {
             dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-        val androidMain by getting {
-            dependencies {
-                api("androidx.appcompat:appcompat:1.2.0")
+                api("androidx.appcompat:appcompat:1.3.1")
                 api("androidx.core:core-ktx:1.3.1")
             }
         }
-        val androidTest by getting {
+        named("desktopMain") {
             dependencies {
-                implementation("junit:junit:4.13")
+                api(compose.desktop.common)
             }
         }
-        val desktopMain by getting {
-            dependencies {
-                api(compose.preview)
-            }
-        }
-        val desktopTest by getting
     }
 }
 
 android {
-    compileSdkVersion(31)
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileSdk = 31
+
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(31)
+        minSdk = 21
+        targetSdk = 31
     }
+
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    sourceSets {
+        named("main") {
+            manifest.srcFile("src/androidMain/AndroidManifest.xml")
+            res.srcDirs("src/androidMain/res", "src/commonMain/resources")
+        }
     }
     namespace = "composit.common"
 }
+
